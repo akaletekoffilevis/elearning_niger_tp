@@ -17,6 +17,12 @@
     </div>
 </div>
 
+<div style="display:flex;gap:0.75rem;margin-top:1rem;flex-wrap:wrap;">
+    <a href="<?= Router::url('/admin/export/users') ?>" class="btn btn-sm btn-outline">📥 Export Utilisateurs CSV</a>
+    <a href="<?= Router::url('/admin/export/courses') ?>" class="btn btn-sm btn-outline">📥 Export Cours CSV</a>
+    <a href="<?= Router::url('/admin/export/enrollments') ?>" class="btn btn-sm btn-outline">📥 Export Inscriptions CSV</a>
+</div>
+
 <div class="admin-grid">
     <div class="card">
         <div class="card-header">

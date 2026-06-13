@@ -18,6 +18,14 @@
                 <a href="<?= Router::url('/admin/courses') ?>">Cours</a>
                 <a href="<?= Router::url('/admin/categories') ?>">Catégories</a>
                 <a href="<?= Router::url('/admin/users') ?>">Utilisateurs</a>
+                <a href="<?= Router::url('/admin/comments') ?>">Commentaires</a>
+                <a href="<?= Router::url('/admin/notifications') ?>">Notifications</a>
+                <a href="<?= Router::url('/admin/certificates') ?>">Certificats</a>
+                <hr style="margin:0.5rem 1rem;border-color:var(--border);">
+                <a href="<?= Router::url('/admin/export/users') ?>">Export CSV Utilisateurs</a>
+                <a href="<?= Router::url('/admin/export/courses') ?>">Export CSV Cours</a>
+                <a href="<?= Router::url('/admin/export/enrollments') ?>">Export CSV Inscriptions</a>
+                <hr style="margin:0.5rem 1rem;border-color:var(--border);">
                 <a href="<?= Router::url('/') ?>">Retour au site</a>
                 <a href="<?= Router::url('/logout') ?>">Déconnexion</a>
             </nav>

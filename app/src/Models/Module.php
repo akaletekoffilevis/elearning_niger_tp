@@ -48,4 +48,15 @@ class Module
         $stmt = Database::connect()->prepare('DELETE FROM modules WHERE id = ?');
         $stmt->execute([$id]);
     }
+
+    public static function findLessons(int $moduleId): array
+    {
+        return Lesson::findByModule($moduleId);
+    }
+}
+
+    public static function findLessons(int $moduleId): array
+    {
+        return Lesson::findByModule($moduleId);
+    }
 }

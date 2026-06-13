@@ -87,4 +87,29 @@
     if (currentLesson) {
         currentLesson.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     }
+
+    // Star rating interactive (for review on course show page)
+    var starLabels = document.querySelectorAll('.star-rating label');
+    starLabels.forEach(function(label) {
+        label.addEventListener('mouseenter', function() {
+            var value = this.getAttribute('for').replace('star', '');
+            var labels = this.parentElement.querySelectorAll('label');
+            labels.forEach(function(l) {
+                var v = l.getAttribute('for').replace('star', '');
+                l.style.color = parseInt(v) >= parseInt(value) ? 'var(--primary)' : 'var(--border)';
+            });
+        });
+        label.addEventListener('mouseleave', function() {
+            var checked = this.parentElement.querySelector('input:checked');
+            var labels = this.parentElement.querySelectorAll('label');
+            labels.forEach(function(l) {
+                var v = l.getAttribute('for').replace('star', '');
+                if (checked) {
+                    l.style.color = parseInt(v) >= parseInt(checked.value) ? 'var(--primary)' : 'var(--border)';
+                } else {
+                    l.style.color = 'var(--border)';
+                }
+            });
+        });
+    });
 })();

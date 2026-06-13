@@ -14,6 +14,10 @@ require_once __DIR__ . '/../src/Models/Module.php';
 require_once __DIR__ . '/../src/Models/Lesson.php';
 require_once __DIR__ . '/../src/Models/Enrollment.php';
 require_once __DIR__ . '/../src/Models/Quiz.php';
+require_once __DIR__ . '/../src/Models/Comment.php';
+require_once __DIR__ . '/../src/Models/Review.php';
+require_once __DIR__ . '/../src/Models/Notification.php';
+require_once __DIR__ . '/../src/Models/Certificate.php';
 
 require_once __DIR__ . '/../src/Controllers/HomeController.php';
 require_once __DIR__ . '/../src/Controllers/AuthController.php';
@@ -22,6 +26,11 @@ require_once __DIR__ . '/../src/Controllers/LessonController.php';
 require_once __DIR__ . '/../src/Controllers/QuizController.php';
 require_once __DIR__ . '/../src/Controllers/DashboardController.php';
 require_once __DIR__ . '/../src/Controllers/AdminController.php';
+require_once __DIR__ . '/../src/Controllers/CommentController.php';
+require_once __DIR__ . '/../src/Controllers/ReviewController.php';
+require_once __DIR__ . '/../src/Controllers/NotificationController.php';
+require_once __DIR__ . '/../src/Controllers/ProfileController.php';
+require_once __DIR__ . '/../src/Controllers/CertificateController.php';
 
 $router = new Router();
 
@@ -32,6 +41,11 @@ $lessonCtrl = new LessonController();
 $quizCtrl = new QuizController();
 $dash = new DashboardController();
 $admin = new AdminController();
+$commentCtrl = new CommentController();
+$reviewCtrl = new ReviewController();
+$notifCtrl = new NotificationController();
+$profileCtrl = new ProfileController();
+$certCtrl = new CertificateController();
 
 // Home
 $router->get('/', [$home, 'index']);
@@ -48,14 +62,36 @@ $router->get('/courses', [$courseCtrl, 'index']);
 $router->get('/courses/{slug}', [$courseCtrl, 'show']);
 $router->post('/courses/{slug}/enroll', [$courseCtrl, 'enroll']);
 
+// Reviews
+$router->post('/courses/{slug}/review', [$reviewCtrl, 'store']);
+
 // Lessons
 $router->get('/courses/{slug}/lessons/{id}', [$lessonCtrl, 'show']);
+$router->post('/courses/{slug}/lessons/{id}/complete', [$lessonCtrl, 'complete']);
 
 // Quiz
 $router->post('/courses/{slug}/lessons/{id}/quiz', [$quizCtrl, 'submit']);
+$router->get('/courses/{slug}/lessons/{id}/results', [$quizCtrl, 'results']);
+
+// Comments
+$router->post('/courses/{slug}/lessons/{id}/comments', [$commentCtrl, 'store']);
+$router->post('/comments/delete/{id}', [$commentCtrl, 'delete']);
 
 // Dashboard
 $router->get('/dashboard', [$dash, 'index']);
+
+// Notifications
+$router->get('/notifications', [$notifCtrl, 'index']);
+$router->get('/notifications/read/{id}', [$notifCtrl, 'read']);
+$router->get('/notifications/read-all', [$notifCtrl, 'readAll']);
+
+// Profile
+$router->get('/profile', [$profileCtrl, 'index']);
+$router->post('/profile', [$profileCtrl, 'update']);
+$router->get('/profile/theme', [$profileCtrl, 'switchTheme']);
+
+// Certificates
+$router->get('/certificate/{course_id}', [$certCtrl, 'download']);
 
 // Admin
 $router->get('/admin', [$admin, 'dashboard']);
@@ -77,5 +113,23 @@ $router->get('/admin/lessons/delete/{id}', [$admin, 'lessonDelete']);
 $router->get('/admin/categories', [$admin, 'categories']);
 $router->post('/admin/categories/save', [$admin, 'categorySave']);
 $router->get('/admin/categories/delete/{id}', [$admin, 'categoryDelete']);
+
+// Admin - Quiz management
+$router->get('/admin/lessons/{lesson_id}/quiz', [$admin, 'quizForm']);
+$router->post('/admin/quiz/save', [$admin, 'quizSave']);
+
+// Admin - Notifications
+$router->get('/admin/notifications', [$admin, 'notifications']);
+$router->post('/admin/notifications/send', [$admin, 'notificationSend']);
+
+// Admin - Certificates
+$router->get('/admin/certificates', [$admin, 'certificates']);
+
+// Admin - Comments
+$router->get('/admin/comments', [$admin, 'comments']);
+$router->post('/admin/comments/delete/{id}', [$admin, 'commentDelete']);
+
+// Admin - Export
+$router->get('/admin/export/{type}', [$admin, 'exportCsv']);
 
 $router->dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);

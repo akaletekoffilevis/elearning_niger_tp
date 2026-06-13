@@ -6,7 +6,7 @@
     <title>eLearning Niger</title>
     <link rel="stylesheet" href="<?= Router::url('/css/app.css') ?>">
 </head>
-<body>
+<body class="<?= isset($_SESSION['theme']) ? 'theme-' . $_SESSION['theme'] : '' ?>">
     <nav class="navbar">
         <div class="container">
             <a href="<?= Router::url('/') ?>" class="navbar-brand">eLearning Niger</a>
@@ -26,7 +26,19 @@
                 </div>
                 <div class="navbar-auth">
                     <?php if (Auth::check()): ?>
-                        <span class="navbar-user"><?= h($currentUser['full_name']) ?></span>
+                        <?php $notifCount = Notification::unreadCount((int) $_SESSION['user_id']); ?>
+                        <a href="<?= Router::url('/notifications') ?>" class="notif-bell" style="position:relative;font-size:1.25rem;">
+                            🔔
+                            <?php if ($notifCount > 0): ?>
+                                <span class="notif-badge"><?= $notifCount > 9 ? '9+' : $notifCount ?></span>
+                            <?php endif; ?>
+                        </a>
+                        <a href="<?= Router::url('/profile') ?>" style="display:flex;align-items:center;gap:0.5rem;color:var(--text);text-decoration:none;">
+                            <?php if (!empty($currentUser['avatar'])): ?>
+                                <img src="<?= h($currentUser['avatar']) ?>" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover;">
+                            <?php endif; ?>
+                            <span class="navbar-user"><?= h($currentUser['full_name']) ?></span>
+                        </a>
                         <a href="<?= Router::url('/logout') ?>" class="btn btn-sm btn-outline">Déconnexion</a>
                     <?php else: ?>
                         <a href="<?= Router::url('/login') ?>" class="btn btn-sm btn-outline">Connexion</a>

@@ -44,3 +44,39 @@ function progress_percent(int $completed, int $total): int
     if ($total === 0) return 0;
     return (int) round(($completed / $total) * 100);
 }
+
+function paginate(int $total, int $page = 1, int $perPage = 20): array
+{
+    $totalPages = max(1, (int) ceil($total / $perPage));
+    $page = max(1, min($page, $totalPages));
+    $offset = ($page - 1) * $perPage;
+    return [
+        'page' => $page,
+        'perPage' => $perPage,
+        'offset' => $offset,
+        'totalPages' => $totalPages,
+        'total' => $total,
+        'hasPrev' => $page > 1,
+        'hasNext' => $page < $totalPages,
+        'prevPage' => $page - 1,
+        'nextPage' => $page + 1,
+    ];
+}
+
+function paginate(int $total, int $page = 1, int $perPage = 20): array
+{
+    $totalPages = max(1, (int) ceil($total / $perPage));
+    $page = max(1, min($page, $totalPages));
+    $offset = ($page - 1) * $perPage;
+    return [
+        'page' => $page,
+        'perPage' => $perPage,
+        'offset' => $offset,
+        'totalPages' => $totalPages,
+        'total' => $total,
+        'hasPrev' => $page > 1,
+        'hasNext' => $page < $totalPages,
+        'prevPage' => $page - 1,
+        'nextPage' => $page + 1,
+    ];
+}
