@@ -1,0 +1,4 @@
+app/data/*.db
+app/data/*.db-wal
+app/data/*.db-shm
+

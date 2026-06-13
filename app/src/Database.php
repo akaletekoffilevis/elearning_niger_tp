@@ -2,11 +2,20 @@
 
 class Database
 {
-    private static ?PDO $instance = null;
+    private static ?PDO $mysqlInstance = null;
+    private static ?SQLiteConnection $sqliteInstance = null;
 
-    public static function connect(): PDO
+    public static function connect(): PDO|SQLiteConnection
     {
-        if (self::$instance === null) {
+        if (getenv('DB_DRIVER') === 'sqlite') {
+            if (self::$sqliteInstance === null) {
+                $path = getenv('DB_SQLITE_PATH') ?: __DIR__ . '/../data/elearning.db';
+                self::$sqliteInstance = SQLiteConnection::connect($path);
+            }
+            return self::$sqliteInstance;
+        }
+
+        if (self::$mysqlInstance === null) {
             $config = require __DIR__ . '/../config/database.php';
 
             $dsn = sprintf(
@@ -16,13 +25,13 @@ class Database
                 $config['charset']
             );
 
-            self::$instance = new PDO($dsn, $config['username'], $config['password'], [
+            self::$mysqlInstance = new PDO($dsn, $config['username'], $config['password'], [
                 PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 PDO::ATTR_EMULATE_PREPARES   => false,
             ]);
         }
 
-        return self::$instance;
+        return self::$mysqlInstance;
     }
 }

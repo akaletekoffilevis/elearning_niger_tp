@@ -3,6 +3,7 @@
 session_start();
 
 require_once __DIR__ . '/../src/Database.php';
+require_once __DIR__ . '/../src/SQLiteConnection.php';
 require_once __DIR__ . '/../src/helpers.php';
 require_once __DIR__ . '/../src/Auth.php';
 require_once __DIR__ . '/../src/Router.php';

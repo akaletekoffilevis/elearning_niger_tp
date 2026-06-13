@@ -54,9 +54,3 @@ class Module
         return Lesson::findByModule($moduleId);
     }
 }
-
-    public static function findLessons(int $moduleId): array
-    {
-        return Lesson::findByModule($moduleId);
-    }
-}
